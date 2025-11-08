@@ -1,0 +1,170 @@
+@SYNC_ID: bf31a672-11a2-42e0-9336-e7426d414f6c
+
+@ALN_LEGAL_MANIFEST {
+  @CONFIG {
+    system_name: "LegalComplianceFramework"
+    version: "1.1.0"
+    binding_charter: "README.md"
+    compliance: [
+      "GDPR", "CCPA", "HIPAA", "SOX", "FedRAMP", "PCI-DSS", "ISO27001", "EU_AI_Act_2024"
+    ]
+    encryption: "AES-256-GCM"
+    integrity: "SHA3-512"
+    notarization: "sigstore_attestation_v1"
+    scope: "Public_Compliance_Interface"
+    audit_trail: "hyperledger_enabled"
+    status: "verified"
+    deploy_timestamp: "2025-10-02T12:00:00.000Z"
+  }
+
+  @DEFINITIONS {
+    root_charter: README.md {
+      description: "Unified Legal and Compliance Charter"
+      binding: "perpetual"
+      notarized: true
+    }
+    fragment_1: fragments/LegalReasoning.sai {
+      description: "Core compliance reasoning engine"
+      compliance: ["GDPR", "CCPA", "HIPAA", "EU_AI_Act_2024"]
+    }
+    particle_1: particles/governance.mai {
+      description: "Governance control module"
+      enforcement: "strict"
+    }
+  }
+
+  @POLICIES {
+    policy: NO_TRAINING_OR_CONTRIBUTION {
+      description: "Prohibits contribution of assets to external AI systems, including general-purpose AI (GPAI), for training, fine-tuning, evaluation, or inference."
+      prohibited_uses: [
+        "Model training, fine-tuning, alignment, distillation",
+        "Embedding datasets, code, or metadata into external model corpora",
+        "Inference or feature extraction outside approved processors"
+      ]
+      permitted_exceptions {
+        basis: [
+          "Explicit written license or DPA",
+          "Documented lawful basis and consent where required",
+          "EU AI Act-compatible disclosures and summaries where applicable"
+        ]
+        approvals_required: ["Legal", "Security", "Data_Protection_Officer"]
+      }
+      references: ["EU_AI_Act_2024_GPAI", "Contractual_Restrictions", "Trade_Secret_Protection"]
+    }
+
+    policy: PROVENANCE_AND_METADATA {
+      description: "Bind provenance and license data; resist tampering."
+      requirements: [
+        "Embed C2PA Content Credentials for supported assets",
+        "Include SPDX license identifiers in source headers",
+        "Include Copyright Management Information (CMI)"
+      ]
+      anti_tamper: {
+        detect_remove_or_alter_CMI: "block_and_escalate"
+        dmca_1202_violation: true
+      }
+      tooling: ["c2pa_toolchain", "spdx_header_inserter"]
+      references: ["C2PA", "DMCA_1202", "SPDX"]
+    }
+
+    policy: ATTESTATIONS_AND_SUPPLY_CHAIN {
+      description: "Require Sigstore attestations with transparency logging."
+      artifacts: ["binaries", "containers", "manifests", "policies"]
+      requirements: [
+        "cosign_sign_keyless",
+        "rekor_transparency_log_inclusion",
+        "oidc_identity_binding"
+      ]
+      verification: ["fulcio_chain_validation", "rekor_inclusion_proof", "identity_match"]
+      references: ["Sigstore", "InToto_Attestations"]
+    }
+
+    policy: ACCESS_AND_EXFILTRATION_CONTROLS {
+      description: "Apply least privilege, network egress controls, and DLP."
+      controls: [
+        "AC-2_account_management",
+        "AC-3_access_enforcement",
+        "AC-6_least_privilege",
+        "SC-7(10)_prevent_exfiltration"
+      ]
+      enforcement: {
+        outbound_ai_endpoints: "deny_by_default"
+        exception_flow: "ticketed_approval_with_time_bound_allowlist"
+      }
+      references: ["NIST_SP_800_53_R5"]
+    }
+
+    policy: CRAWLER_AND_SCRAPING_OPT_OUT {
+      description: "Publish robots directives to opt-out from AI crawlers and training ingestion where honored."
+      directives_file: "/public/robots.txt"
+      agents_disallow: [
+        "GPTBot", "Google-Extended", "CCBot", "Bytespider",
+        "cohere-ai", "anthropic-ai", "ClaudeBot", "Claude-Web", "omgili", "Diffbot", "FacebookBot"
+      ]
+      note: "Compliance depends on crawler adherence to robots.txt."
+      references: ["GPTBot_robots", "AI_Crawlers_Operators"]
+    }
+
+    policy: REMEDIES_AND_ENFORCEMENT {
+      description: "On violation, initiate cease-and-desist, seek injunctive relief, and preserve evidence."
+      triggers: [
+        "CMI removal or alteration",
+        "Unauthorized training or contribution",
+        "Exfiltration attempts or DLP events"
+      ]
+      actions: [
+        "issue_legal_notice_cease_and_desist",
+        "seek_DMCA_and_DTSA_relief",
+        "suspend_access_and_keys",
+        "forensic_preservation_and_chain_of_custody"
+      ]
+      references: ["DMCA_1202", "DTSA_18_USC_1836"]
+    }
+  }
+
+  @FUNCTIONS {
+    @VALIDATE integrity {
+      method: "hyperledger"
+      @IF violation_detected {
+        @THROW "INVALID MANIFEST STATE – PROCESS HALTED"
+      }
+    }
+
+    @ENFORCE outbound_controls {
+      egress_policy: "deny_external_ai"
+      allowlist_registry: "/compliance/allowlists/ai_endpoints.yaml"
+      dlp_profile: "strict"
+    }
+
+    @ATTEST artifacts {
+      signer: "cosign_keyless"
+      log: "rekor_required"
+      verify: ["fulcio", "rekor", "oidc_identity_match"]
+    }
+
+    @PROVENANCE embed_c2pa {
+      mode: "content_credentials"
+      protected_claims: ["creator", "creation_time", "processing_history", "license", "usage_terms"]
+      cmi_sync: true
+    }
+  }
+
+  @EXEC {
+    @INIT {
+      status: "active"
+      compliance_mode: "strict"
+    }
+    @RUNTIME {
+      monitor: ["dlp_events", "egress_flows", "sigstore_verifications", "c2pa_integrity"]
+      on_violation: {
+        escalate: "Legal, Security, DPO"
+        action: ["access_suspend", "notice_issue", "evidence_preserve"]
+      }
+    }
+  }
+
+  @RETURN {
+    legal_status: "verified"
+    compliance_verified: true
+  }
+}

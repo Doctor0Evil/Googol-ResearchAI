@@ -1,0 +1,17 @@
+@ML_MEMORIZATION_POLICY {
+  scope: ["pretraining", "fine_tuning", "eval"]
+  data_controls: ["minimization", "pseudonymization", "pii_redaction"]
+  training {
+    dp_sgd: { enabled: true, eps_budget: "<value>", delta: "<value>" }
+    canary_strings: { enabled: true, monitor_leakage: true }
+  }
+  inference {
+    pii_filter: "enable"
+    retrieval_guardrails: "allowlist_only"
+    logging: "audit_high"
+  }
+  network {
+    egress_ai_endpoints: "deny_by_default"
+    sc_7_10_prevent_exfiltration: true
+  }
+}

@@ -1,0 +1,36 @@
+name: Compliance Validation CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Validate ALN Manifest
+        run: |
+          echo "Validating LEGAL_MANIFEST.aln..."
+          if ! grep -q "indestructible" LEGAL_MANIFEST.aln; then
+            echo "Manifest must be indestructible"
+            exit 1
+          fi
+
+      - name: Validate Fragments
+        run: |
+          for f in fragments/*.sai; do
+            echo "Checking $f..."
+            grep -q "reasoning" $f || (echo "Missing reasoning engine" && exit 1)
+          done
+
+      - name: Validate Particles
+        run: |
+          for p in particles/*.mai; do
+            echo "Checking $p..."
+            grep -q "governance" $p || (echo "Missing governance enforcement" && exit 1)
+          done

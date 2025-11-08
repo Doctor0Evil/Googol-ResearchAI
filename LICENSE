@@ -1,0 +1,104 @@
+***
+
+### LICENSE Content
+
+```markdown
+MIT License
+
+Copyright (c) 2025 Doctor0Evil, SAI/MAI Collective
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+SwarmNet Compliance & Indestructibility Addendum
+
+1. **Governance Mandate**: This repository and all included works are subject to the rules, ethical frameworks, and technical safeguards of the SwarmNet Superintelligence Compliance Charter.
+2. **Immutable Audit**: All governance and data operations are logged; tampering or deletion is rendered technically infeasible and legally actionable.
+3. **Override Restrictions**: Emergency or override controls must require consensus by authorized, cryptographically verifiable agents as specified in project governance.
+4. **Binding Arbitration/Enforcement**: All critical disputes, compliance violations, or security incidents are subject to automated arbitration and remediation under SwarmNet protocols and collective oversight.
+
+For complete terms, see documentation in `/config/sai-mai.yaml` and [SwarmNet Superintelligence Compliance Charter documentation].
+
+---
+
+This dual-structure ensures maximum public usability while legally enforcing your security, indestructibility, and compliance mandates [web:31][web:32][web:39].
+
+---
+
+### Placement
+
+- Name the file exactly `LICENSE` (all uppercase, no extension).
+- Place it in the **root directory** of your repository (e.g., `root-dir/LICENSE`), alongside your `README.md` and other project-wide documentation files.
+
+This layout directly supports GitHub and open-source best practices, visibly signifying your project’s legal coverage and unique compliance model.Create a file named `LICENSE` (all-uppercase, no extension) and place it at the root of your repository directory (e.g., `root-dir/LICENSE`). The recommended license content for your project is:
+
+```
+MIT License
+
+Copyright (c) 2025 Doctor0Evil, SAI/MAI Collective
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+***
+SwarmNet Compliance & Indestructibility Addendum
+
+1. Governance Mandate: This repository and all included works are subject to the rules, ethical frameworks, and technical safeguards of the SwarmNet Superintelligence Compliance Charter.
+2. Immutable Audit: All governance and data operations are logged; tampering or deletion is rendered technically infeasible and legally actionable.
+3. Override Restrictions: Emergency or override controls must require consensus by authorized, cryptographically verifiable agents as specified in project governance.
+4. Binding Arbitration/Enforcement: All critical disputes, compliance violations, or security incidents are subject to automated arbitration and remediation under SwarmNet protocols and collective oversight.
+
+See `/config/sai-mai.yaml` and the SwarmNet Charter for full terms.
+```
+This ensures both open-source clarity and your project’s compliance mandates are met. Place this file in the project’s root, visible to all users and contributors [web:31][web:32][web:39].
+
+[1](https://en.wikipedia.org/wiki/MIT_License)
+[2](https://go.dalet.com/hubfs/Legal%20Documents/DaletLicenseAddendum-WEB-Feb2024.pdf)
+[3](https://commons.wikimedia.org/wiki/Template:MIT)
+[4](https://www.pandadoc.com/license-agreement-template/)
+[5](https://choosealicense.com/licenses/mit/)
+[6](https://juro.com/contract-templates/end-user-license-agreement)
+[7](https://www.mit.edu/~amini/LICENSE.md)
+[8](https://www.lawinsider.com/clause/addendum-to-license-agreement)
+[9](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-license-to-a-repository)
+[10](https://contractbook.com/templates/licensing-agreement)
+[11](https://repositorio.inesctec.pt/items/b555baea-c56f-459c-b6ca-8946875d8d7c)
+[12](https://www.gonitro.com/resources/license-agreement-template)
+[13](https://www.reddit.com/r/opensource/comments/x2qjm1/if_i_use_the_mit_license_for_a_github_template/)
+[14](https://www.rocketlawyer.com/business-and-contracts/intellectual-property/releases-and-licensing/document/license-agreement)
+[15](https://docs.github.com/articles/licensing-a-repository)
+[16](https://independentpublishersguild.com/Common/Uploaded%20files/IPG%20document%20library/IPG%20document%20library/LBF22%20Addendum%20and%20Rules%20and%20Regs.pdf)
+[17](https://www.luminpdf.com/form-templates/category/licensing)
+[18](https://www.sfasu.edu/docs/general-counsel/form-standard-contract-addendum.docx)

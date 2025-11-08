@@ -1,0 +1,18 @@
+# destination: /policies/reward-function.tracking.sai
+fragment reward-function.tracking.sai
+version 2025.10.19
+author SAIMAI.RewardOps
+description "Multi-party governed, version-controlled registry for every reward/cost function branch and audit."
+linked_reward_functions [
+  "/src/backend/reward_logic.py",
+  "/fragments/reward-policy.sai"
+]
+governance [
+  "multi-sig review required for ALL updates",
+  "quorum approval enforced for branch merges"
+]
+branch_audit_log "/logs/reward-branch-audit.json"
+trigger onRewardFunctionUpdate:
+  logBranchEvent
+  requireQuorumSignoff
+  update branch_audit_log

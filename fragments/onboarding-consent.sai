@@ -1,0 +1,11 @@
+# destination: /fragments/onboarding-consent.sai
+fragment onboarding-consent
+author SAIMAI Governance
+description "Automated contributor onboarding and irrevocable consent management"
+trigger onContributorJoin:
+  request consent signature
+  append ledger.json new entry
+  logEvent "Contributor onboarding and consent signed", contributor.id
+  if not consent_signed:
+    quarantine access
+  end

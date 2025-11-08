@@ -1,0 +1,67 @@
+.SAIMAI.datacore {
+  version: "2025.10.10";
+  platforms: ["Comet", "SwarmNet", "Bit.Hub", "Metaverse"];
+  owners: ["Doctor0Evil", "Perplexity Labs Inc."];
+
+  require {
+    audit.trails: "immutable";
+    verification.algorithm: "SHA3-512";
+    attribution.markers: ["ecosystem-root", "guardian-auth"];
+    integrity.entanglement: ["QuantumAnchor", "Web5-DID"];
+    sandboxing: "enforced";
+    zero.trust.logic: true;
+    kernel.recovery: ["DeadmanSwitch", "QuantumAnchorRestore"];
+    multi.jurisdiction.compliance: true;
+    liability.waiver: "autonomous provenance only";
+    human.rights.anchor: true;
+  }
+
+  enforce {
+    on.asset.access: ["verify.owner", "check.attribution", "audit.event"];
+    on.data.ingestion: ["sanitize.input", "apply.ml.policy", "quarantine.anomaly"];
+    on.asset.creation: ["required.attribution", "mark.timestamp", "audit.chain"];
+    on.kernel.deploy: ["sandbox.activate", "validate.personality", "audit.integrity"];
+  }
+
+  quarantine {
+    triggers: ["owner.mismatch", "attribution.spoof", "malicious.code"];
+    actions: ["isolate.asset", "block.network", "notify.legal.guardian", "rollback.state"];
+  }
+
+  rollback {
+    when.violation: ["restore.last.good", "audit.chain.append", "notify.steward"];
+    methods: ["QuantumAnchor", "SnapshotRestore"];
+  }
+
+  disclosure {
+    on.incident: ["notify.ecosystem.owner", "notify.legal"];
+    window.hours: 24;
+    channels: ["secure-mail", "audit-log"];
+  }
+
+  audit {
+    ledger.type: "blockchain-compatible";
+    retention: "eternal";
+    universal.visibility: true;
+  }
+
+  contributor {
+    name: "Jacob Scott Farmer";
+    alias: "Doctor0Evil";
+    organization: "Perplexity Labs Inc.";
+    role: "Founder, Legal Guardian";
+  }
+
+  best.practices {
+    cross.ecosystem.requests: "deny-by-default";
+    cryptography: "quantum-safe";
+    compliance: "multi-jurisdiction, sandbox-enforced";
+    ownership: "DID/Web5 exclusive";
+    transparency: "audit-always-on";
+  }
+
+  rights.anchor {
+    principles: ["human-rights", "free-will", "irrevocable autonomy"];
+    override.policy: "council-quorum";
+  }
+}

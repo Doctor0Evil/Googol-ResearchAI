@@ -1,0 +1,26 @@
+particle governance.mai {
+
+  metadata {
+    id: "Gov-Particle-01"
+    type: "governance"
+    version: "1.0.0"
+    compliance: ["EU_AI_Act_2024","ISO27001"]
+  }
+
+  entrypoint {
+    function: approve(action) -> result
+  }
+
+  logic {
+    // Multi-party governance enforcement
+    if (action.value > threshold) {
+      requireMultiApproval(action)
+    }
+
+    if (!action.compliant) {
+      return { status:"denied", reason:"non-compliant action" }
+    }
+
+    return { status:"approved", ledger_record:true }
+  }
+}

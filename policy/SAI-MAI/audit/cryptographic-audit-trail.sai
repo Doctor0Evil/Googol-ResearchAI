@@ -1,0 +1,11 @@
+fragment CryptographicAuditTrail {
+  field tx_hash: String;
+  field policy_matrix: String;
+  field compliance_log: String;
+  field audit_signature: PQCSignature;
+  field timestamp: ISODate;
+  require post_quantum_cryptography;
+  audit_log_linked: true;
+  exportable: true;
+  privacy: encrypted_onchain;
+}

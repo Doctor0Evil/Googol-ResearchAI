@@ -1,0 +1,16 @@
+@TAKEDOWN_ENFORCEMENT {
+  inputs { evidence: ["rekor_entry", "fulcio_cert", "artifact_digest", "c2pa_claims"] }
+  dmca_512_notice {
+    elements: ["signature", "work_identification", "location_url", "contact", "good_faith_statement", "perjury_statement"]
+    delivery: ["provider_form", "designated_agent_email", "registered_address"]
+  }
+  dtsa_injunction {
+    venue: "<jurisdiction>"
+    relief: ["temporary_restraining_order", "preliminary_injunction"]
+    preservation: ["models", "datasets", "logs"]
+  }
+  tracking {
+    case_id: "@UUID"
+    deadlines: ["provider_response", "respondent_cure", "litigation_hold"]
+  }
+}

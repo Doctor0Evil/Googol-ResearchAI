@@ -1,0 +1,37 @@
+fragment LegalReasoning.sai {
+
+  metadata {
+    id: "SL-Core-Reasoning"
+    version: "1.0.0"
+    type: "advanced_reasoning"
+    compliance: ["GDPR","PCI-DSS","ISO27001","GDPR"]
+  }
+
+  entrypoint {
+    function: reason(args) -> output
+  }
+
+  logic {
+    if (!args.contains("query")) {
+      return { status:"error", message:"missing legal query" }
+    }
+
+    let jurisdiction = normalizeJurisdiction(args.jurisdiction)
+    let statutes = fetchCodes(jurisdiction)
+    let compliance = matchCompliance(jurisdiction)
+
+    let advisory = generateLegalOpinion(
+        args.query,
+        statutes,
+        compliance,
+        { binding:true, auditable:true }
+    )
+
+    return {
+      status: "ok",
+      reasoning: advisory,
+      compliance_attestation: generateAttestation(compliance),
+      immutable: true
+    }
+  }
+}

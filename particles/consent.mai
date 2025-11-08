@@ -1,0 +1,28 @@
+particle consent.mai {
+
+  metadata {
+    id: "Gov-Particle-Consent"
+    type: "consent_governance"
+    version: "1.0.0"
+    compliance: ["GDPR","CCPA","HIPAA"]
+  }
+
+  // Entrypoint for recording and validating user consent data
+  entrypoint {
+    function: recordConsent(consentData) -> confirmation
+  }
+
+  logic {
+    // Validate consent data structure, completeness, and compliance
+    let valid = validateConsentData(consentData)
+
+    if (!valid) {
+      return { status:"error", reason:"Consent data invalid or incomplete" }
+    }
+
+    // Persist consent record securely with audit trail metadata
+    storeConsentRecord(consentData)
+
+    return { status:"recorded", timestamp: currentTimestamp() }
+  }
+}

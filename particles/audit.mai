@@ -1,0 +1,25 @@
+particle audit.mai {
+
+  metadata {
+    id: "Gov-Particle-Audit"
+    type: "audit_trail"
+    version: "1.0.0"
+    compliance: ["SOX","ISO27001","FedRAMP"]
+  }
+
+  // Entrypoint for logging auditable events into secure trails
+  entrypoint {
+    function: logEvent(event) -> confirmation
+  }
+
+  logic {
+    if (!event.details) {
+      return { status:"error", message:"No event details provided" }
+    }
+
+    // Append event with metadata for traceability and compliance
+    appendAuditTrail(event)
+
+    return { status:"logged", eventId: generateEventId() }
+  }
+}

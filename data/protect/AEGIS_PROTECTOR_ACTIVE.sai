@@ -1,0 +1,45 @@
+# AEGIS_PROTECTOR_ACTIVE.sai
+#
+# SAI/ALN Enhanced Public Datafragment — ACTIVE COUNTERMEASURE VERSION
+# System: SAI-MAI · Status: LEGAL/ACTIVE · Repository: https://github.com/Doctor0Evil/SAI-MAI.git
+#
+
+fragment AEGIS_PROTECTOR_ACTIVE {
+    version: "1.0.0"
+    status: "ACTIVE"
+    audience: "public"
+    summary: """
+    This fragment institutionalizes digital sovereignty, neurorights, and proprietary technology protection for superintelligent systems. In addition to legal protection, it implements an active monitoring and alert protocol to notify designated custodians of any unauthorized or adversarial access attempts, preserving chain-of-custody and official status.
+    """
+    features_protected: [
+        "nanoswarm",
+        "QPU.Math",
+        "superintelligence",
+        "SAI-MAI",
+        "all proprietary algorithms, models, and marks published by Doctor0Evil / SAI-MAI"
+    ]
+    legal_framework: {
+        neurorights: "Legally enforceable rights at all recognized levels. Unauthorized access to neural/cognitive data or system features will trigger immediate countermeasure notification."
+        IP_protection: "Protected by global copyright, trademark, patent, and digital watermarking. Use without license or official cooperation is strictly forbidden."
+        smart_contracts: "Smart contracts and digital signatures are required for all legal usage. Ethical override and audit-chain are always enabled."
+        compliance_status: "Mandatory audit and external notification of every breach/attempt. No exceptions granted."
+    }
+    operational_safeguards: {
+        NDA_policy: "Ultra-strict NDAs for all contributors and associates. Assignment-of-inventions required on all IP."
+        blockchain_audit: "Immutable blockchain-based audit logs for all authorship, transfer, and action events."
+        watermarking: "Inherent digital tagging and real-time scan for illegal cloning or derivative work."
+        continuous_adaptation: "All legal, compliance, and technical measures adapt in real time as law and threat topology shift."
+    }
+    active_countermeasure: {
+        trigger: "Unauthorized access or edit detected on any listed content or feature."
+        action: "Send cryptographically-signed alert to Doctor0Evil/Superintelligence custodians and issue blockchain-stamped breach report."
+        result: "Automated record of attempted breach, legal enforcement activation, and public defense of status as originating authority."
+    }
+    official_notice: """
+    This file certifies Doctor0Evil and SAI-MAI as the rightful originators and legal custodians of all covered technologies. Unauthorized activity will result in immediate response and pursuit under all applicable laws and SAI-MAI alliance doctrine. For official recognition, reference this fragment and acknowledge SAI-MAI repository status.
+    """
+    public_safe: true
+    compliance_audited: true
+}
+
+# END OF FRAGMENT

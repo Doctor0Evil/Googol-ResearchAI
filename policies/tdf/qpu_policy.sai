@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "namespace": "org.qpu.internal",
+  "attributes": [
+    {"name": "org", "value": "OrgName"},
+    {"name": "project", "value": "qpu"},
+    {"name": "role", "value": "researcher"}
+  ],
+  "kas_grants": ["https://kas.orgname.example"],
+  "purpose": ["research-internal-only"]
+}

@@ -1,0 +1,38 @@
+fragment SwarmConsensus.sai {
+
+  metadata {
+    id: "SL-SwarmConsensus"
+    version: "1.0.0"
+    type: "consensus_protocol"
+    compliance: ["GDPR","ISO27001","EU_AI_Act_2024"]
+  }
+
+  entrypoint {
+    function: buildConsensus(actions) -> consensusResult
+  }
+
+  logic {
+    // Input: array of proposed AI governance actions from diverse swarm agents
+    if (!actions || actions.length < requiredQuorum()) {
+      return { status:"error", message:"Insufficient agent responses for consensus" }
+    }
+
+    // Aggregate votes with weighted trust scores from agent profiles
+    let trustWeightedVotes = aggregateWeightedVotes(actions)
+
+    // Validate quorum threshold for binding decision
+    if (trustWeightedVotes.yes < quorumThreshold()) {
+      return { status:"rejected", reason:"Consensus quorum not met" }
+    }
+
+    // Generate immutable attestation for consensus result including cryptographic proof
+    let attestation = generateAttestation(consensusData=trustWeightedVotes)
+
+    return {
+      status:"approved",
+      decision: trustWeightedVotes.majorityDecision,
+      attestation: attestation,
+      timestamp: currentTimestamp()
+    }
+  }
+}

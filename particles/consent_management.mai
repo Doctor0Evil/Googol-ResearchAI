@@ -1,0 +1,35 @@
+particle consent_management.mai {
+
+  metadata {
+    id: "Gov-Particle-Consent-Management"
+    type: "consent_governance"
+    version: "1.1.0"
+    compliance: ["GDPR","CCPA","HIPAA"]
+  }
+
+  // Entrypoint for tracking, updating, and revoking consent with cryptographic proof
+  entrypoint {
+    function: manageConsent(consentRequest) -> confirmation
+  }
+
+  logic {
+    let existingConsent = fetchConsentRecord(consentRequest.userId)
+
+    if (consentRequest.action == "revoke" && existingConsent) {
+      updateConsentStatus(consentRequest.userId, "revoked")
+      logAuditEvent("Consent revoked", consentRequest.userId)
+      return { status:"revoked", timestamp: currentTimestamp() }
+    }
+
+    if (consentRequest.action == "grant") {
+      if (!validateConsentSchema(consentRequest)) {
+        return { status:"error", reason:"Consent data schema invalid" }
+      }
+      storeConsentRecord(consentRequest)
+      logAuditEvent("Consent granted", consentRequest.userId)
+      return { status:"granted", timestamp: currentTimestamp() }
+    }
+
+    return { status:"error", reason:"Unsupported consent action" }
+  }
+}

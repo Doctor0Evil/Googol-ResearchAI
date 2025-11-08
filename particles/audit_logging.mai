@@ -1,0 +1,29 @@
+particle audit_logging.mai {
+
+  metadata {
+    id: "Gov-Particle-Audit-Logging"
+    type: "audit_trail"
+    version: "1.1.0"
+    compliance: ["SOX","ISO27001","FedRAMP"]
+  }
+
+  // Entrypoint for robust audit log creation, validation, and export
+  entrypoint {
+    function: recordAuditEvent(eventData) -> confirmation
+  }
+
+  logic {
+    if (!validateEventData(eventData)) {
+      return { status:"error", reason:"Invalid event data format" }
+    }
+
+    appendAuditLog(eventData)
+
+    // Trigger alert for critical audit events as per governance
+    if (eventData.severity == "critical") {
+      alertGovernanceTeam(eventData)
+    }
+
+    return { status:"logged", eventId: generateEventId(), timestamp: currentTimestamp() }
+  }
+}

@@ -1,0 +1,21 @@
+// destination: /contributors/ledger.json
+[
+  {
+    "name": "Jacob Scott Farmer",
+    "role": "Lead Architect",
+    "github": "Doctor0Evil",
+    "email": "jsf@perplexity.ai",
+    "consent_signed": true,
+    "date_joined": "2025-10-01",
+    "signature": "sha3-512:abcdef12345..."
+  },
+  {
+    "name": "Future Contributor",
+    "role": "Researcher",
+    "github": "",
+    "email": "",
+    "consent_signed": false,
+    "date_joined": "",
+    "signature": ""
+  }
+]

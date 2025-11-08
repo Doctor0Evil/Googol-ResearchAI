@@ -1,0 +1,1 @@
+executeKYC_DID_policySafeTx({KYC(), DID(), simulateTx(), runPolicy(SAI_MAI, ALN), logAll(filename,folder,debugDisplay), enforceSafeTokenUsage(max), blockUnsafe(), auditableTrace()})

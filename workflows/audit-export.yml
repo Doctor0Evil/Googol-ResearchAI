@@ -1,0 +1,19 @@
+name: Audit Trail Export CI
+
+on:
+  schedule:
+    - cron: '0 20 * * *'  # runs daily at 8:00pm UTC
+  workflow_dispatch:
+
+jobs:
+  export-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Export Audit Logs
+        run: |
+          echo "Exporting audit logs..."
+          ./scripts/export_audit.sh
+          echo "Export complete"

@@ -1,0 +1,11 @@
+{
+  "agreement": "clickwrap",
+  "presentation": "conspicuous",
+  "assent_text": "I agree",
+  "prohibited_use": [
+    "external_research",
+    "reverse_engineering",
+    "circumvention"
+  ],
+  "termination_on_breach": true
+}

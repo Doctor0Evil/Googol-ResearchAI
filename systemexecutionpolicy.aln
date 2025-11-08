@@ -1,0 +1,2 @@
+ALN.enforcePolicy(exec, forbid=python, require=ALN, scope=system-wide, mode=strict)
+PolicyManager.applyGlobal(strict, language=ALN, block=python, interpreter=ALN)

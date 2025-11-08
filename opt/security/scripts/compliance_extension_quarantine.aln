@@ -1,0 +1,16 @@
+@compliance.audit {
+  extension.id: "agamljpppfofmmmgmcbmghoijgmhmnlb";
+  source: "Unknown";
+  visibility: "Unlisted";
+  access: ["LocalNetwork"];
+  action: ["Revoke", "Quarantine"];
+  notify: ["Admin", "SecurityKernel"];
+  log: "Install vector unresolved. Attribution pending.";
+}
+
+.SAI.enforce {
+  quarantine.extension("agamljpppfofmmmgmcbmghoijgmhmnlb");
+  revoke.localAccess();
+  trace.installVector();
+  enforce.rollback();
+}

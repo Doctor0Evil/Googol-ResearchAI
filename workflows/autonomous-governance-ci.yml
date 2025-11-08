@@ -1,0 +1,32 @@
+name: Autonomous Governance Validation CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * *' # 2am UTC daily
+
+jobs:
+  test-and-notarize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run Automated Tests for Swarm Protocol\
+        run: |
+          pytest tests/swarm_consensus_tests.py
+
+      - name: Run Security & Corruption Detection Tests
+        run: |
+          pytest tests/corruption_detection_tests.py
+
+      - name: Sign Attestations with Sigstore
+        run: |
+          sigstore sign --files fragments/SwarmConsensus.sai particles/AttestationLedger.mai
+
+      - name: Verify Signatures
+        run: |
+          sigstore verify --certificate fragments/SwarmConsensus.sai.sig

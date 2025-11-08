@@ -1,0 +1,1 @@
+PolicyManager.applyUserPolicy(userID, allow=["ALN"], deny=["python"], interpreter="ALN", scope="user-only")

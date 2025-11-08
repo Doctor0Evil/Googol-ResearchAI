@@ -1,0 +1,12 @@
+# destination: .github/workflows/manifest-notarization.yml
+name: Manifest Notarization & Governance Tracker
+on: [push, pull_request]
+jobs:
+  notarize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Manifest Notarization
+        run: python scripts/notarize_manifest.py
+      - name: Commit Notarization Log
+        run: git commit -am "Update manifest notarization log" && git push

@@ -1,0 +1,41 @@
+{
+  "swarmnet-bithub-chain-crosschat": {
+    "description": "Synchronization and execution policy for cross-chain chat via Bit.Hub on ETHSwarm.",
+    "web_element_target": "cross_persist_sync",
+    "execution_policy": {
+      "ChatNative86": {
+        "runtime": "python3.8",
+        "session_scope": {
+          "type": "peer-mesh",
+          "max_peers": 100,
+          "region": "global"
+        },
+        "anchor": {
+          "framework": "Bit.Hub",
+          "protocol": "ETHSWARM",
+          "version": "1.0"
+        },
+        "compliance": [
+          {
+            "standard": "blockchain-integrity",
+            "mode": "strict"
+          }
+        ],
+        "security": {
+          "auto_audit": true,
+          "permitted_domains": [
+            "https://dev.ethswarm.org",
+            "https://docs.swarmnet.dev"
+          ]
+        },
+        "operations": {
+          "logging": {
+            "type": "immutable-ledger",
+            "endpoint": "/api/v1/logs"
+          },
+          "feedback_enabled": true
+        }
+      }
+    }
+  }
+}

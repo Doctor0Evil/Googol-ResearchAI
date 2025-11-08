@@ -1,0 +1,25 @@
+name: Notarization Validation CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  notarize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Sigstore Notarization
+        run: |
+          echo "Starting sigstore notarization for all code ends..."
+          sigstore sign --files LEGAL_MANIFEST.aln fragments/*.sai particles/*.mai
+          echo "Notarization complete"
+
+      - name: Validate Notarization Certificates
+        run: |
+          sigstore verify --certificate LEGAL_MANIFEST.aln.sig
+          echo "Certificates verified successfully"

@@ -1,0 +1,1 @@
+SessionPolicy.enforce(user="Doctor0Evil", restrict=["external"], protect="copyright, authorship", require=["ALN", "j.s.f."], execCompliance="system-wide", monitorAllAngles="true", autoBlockVulnerabilities="true")

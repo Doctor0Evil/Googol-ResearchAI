@@ -1,0 +1,50 @@
+.saimai {
+    ::governance {
+        sign_all_interactions = true;
+        embed_origin = "JacobScottFarmer|PerplexityLabsInc";
+        quantum_proof = true;
+        watermark_id = "SAIMAI_UNAVOIDABLE_SIGNATURE";
+        ledger_mode = append_only;
+        runtime_enforce = global;
+    }
+
+    ::audit {
+        enabled = true;
+        path = ".saimai_audit/";
+        log_level = info;
+        chain_seal {
+            algorithm = blake3;
+            frequency = "10m";
+        }
+    }
+
+    ::runner {
+        isolate_sandbox = true;
+        policy_scope = global;
+        attestation_required = true;
+        rollback_on_violation = true;
+    }
+
+    ::nanoswarm {
+        heartbeat_validation = true;
+        consensus_threshold = 0.90;
+    }
+
+    ::evidence_vault {
+        enabled = true;
+        hash_algorithm = blake3;
+        snapshot_on_quarantine = true;
+    }
+
+    ::auto_remediation {
+        enabled = true;
+        threshold = 0.90;
+    }
+
+    ::telemetry {
+        mirror_local = true;
+        insight_console_flags = "--enable-ai-guardian-insight";
+        buffer_ephemeral = true;
+        no_exfiltration = true;
+    }
+}

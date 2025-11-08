@@ -1,0 +1,44 @@
+// Filename: ALNrunner.legal.workflow.aln
+// Location: policy/activespaces/compliance/ALNrunner.legal.workflow.aln
+// Purpose: Self-hosted, platform-independent ALN runner for legal, compliance, and operational validation
+
+// -- ALN Runner Main Routine
+module ALNRunnerLegalGuard
+{
+  entrypoint runLegalJob(jobRequest) {
+    logEvent("ALNRunner.Start", meta=jobRequest.meta)
+    if (!KYC.verify(jobRequest.user)) {
+        block(jobRequest.user, reason="No valid KYC or DID")
+        exit
+    }
+    let risk = QPU.Math.simulateRisk(jobRequest.policyUpdate)
+    if (risk.level > ALNRunnerParams.RISK_MAX) {
+        logEvent("ALNRunner.Abort", details=risk)
+        notifyCompliance(jobRequest, risk)
+        exit
+    }
+    if (!PolicyMatrix.validate(jobRequest.policyUpdate)) {
+        logEvent("ALNRunner.Blocked.Policy", meta=jobRequest.policyUpdate)
+        exit
+    }
+    let consentValid = Consent.check(jobRequest.user, jobRequest.policyUpdate)
+    if (!consentValid) {
+        requestConsent(jobRequest.user, jobRequest.policyUpdate)
+        waitForConsent(jobRequest.user)
+    }
+    let signature = Blockchain.Eth.Sign(jobRequest.policyUpdate, meta=jobRequest.user)
+    Ledger.append(signature)
+    AuditLogger.capture(jobRequest, risk, signature)
+    logEvent("ALNRunner.Complete", meta=signature)
+    return "ALN Legal Job Executed - audit, authorship, chain cert complete"
+  }
+
+  // Enforce ALN-only execution
+  PolicyManager.applyGlobal(strict, language=ALN, block=python, defaultInterpreter=ALN)
+  stopifnot(all(authorized_access), cryptographically_verified(metadata)) && AuditLogger$logEvent("IntrusionAttempt", details=list(time=Sys.time(), user=Sys.info()[["user"]], status="blocked"))
+
+  // Autoscale or autoprovision as needed
+  onDemand(jobRequest) {
+    spawnNewTask(runLegalJob(jobRequest))
+  }
+}

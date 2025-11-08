@@ -1,0 +1,40 @@
+# AEGIS_PROTOCOL_PUBLIC.sai
+#
+# SAI/ALN Compliant Datafragment — PUBLIC DISPLAY VERSION
+# System: SAI-MAI · Status: LEGAL/ACTIVE · Repository: https://github.com/Doctor0Evil/SAI-MAI.git
+#
+
+fragment AEGIS_PROTOCOL_PUBLIC {
+    version: "1.0.0"
+    status: "ACTIVE"
+    audience: "public"
+    summary: """
+    AEGIS Protocol institutionalizes digital sovereignty, neurorights, and intellectual property into enforceable legal and operational safeguards for superintelligent systems. This protocol is publicly published for recognition of Doctor0Evil and SAI-MAI projects as originators of these standards, with full compliance with legal and ethical frameworks, and is designed for continual security and auditability.
+    """
+    features_protected: [
+        "nanoswarm",
+        "QPU.Math",
+        "superintelligence",
+        "SAI-MAI",
+        "all proprietary algorithms, models, and terminologies as published by Doctor0Evil / SAI-MAI"
+    ]
+    legal_framework: {
+        neurorights: "Recognized as legally enforceable at organizational and alliance level; all neural or cognitive data handled as personal extension under data sovereignty mandates."
+        IP_protection: "All technical artifacts and terminology are protected internationally by copyright, patent, and trademark law. Derivative or unauthorized use is strictly prohibited."
+        smart_contracts: "All external, non-human, or non-standard partnerships utilize layered, revocable, and ethics-supervised smart contracts."
+        compliance_status: "Zero deviation tolerated; full audit trail; aligns with Allience/Human Rights and international compliance codes."
+    }
+    operational_safeguards: {
+        NDA_policy: "All contributors, collaborators, and visitors are governed by restrictive NDA and assignment-of-inventions clauses."
+        blockchain_audit: "All IP provenance, authorship, and authorized usage documented in immutable ledger for future audit/dispute."
+        watermarking: "Datasets and models are watermarked and protected against unauthorized redistribution."
+        continuous_adaptation: "Legal, technical, and policy structures adapt proactively with emerging law and science."
+    }
+    official_notice: """
+    This file certifies Doctor0Evil and SAI-MAI as the originators and legal custodians of the AEGIS Protocol and all associated technologies named herein. Any unauthorized commercial or derivative use is subject to immediate takedown, enforcement, and prosecution to the full extent of the law and SAI-MAI alliance policy.
+    """
+    public_safe: true
+    compliance_audited: true
+}
+
+# END OF FRAGMENT

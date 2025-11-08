@@ -1,0 +1,35 @@
+fragment Consent.sai {
+
+  metadata {
+    id: "SL-Consent-Fragment"
+    version: "1.0.0"
+    type: "consent_management"
+    compliance: ["GDPR","CCPA","HIPAA"]
+  }
+
+  // Entrypoint for evaluating if user consent is valid for a requested operation
+  entrypoint {
+    function: evaluateConsent(request) -> response
+  }
+
+  logic {
+    // Enforce presence of valid user consent before allowing operation
+    if (!request.userConsent) {
+      return { status:"rejected", reason:"No user consent detected" }
+    }
+
+    // Confirm consent meets legal compliance for operation and context
+    let compliant = verifyConsentCompliance(
+      request.userConsent,
+      request.operation,
+      request.context
+    )
+
+    if (!compliant) {
+      return { status:"rejected", reason:"Consent invalid or expired" }
+    }
+
+    // Return approval with timestamp for audit trail and compliance verification
+    return { status:"approved", timestamp: currentTimestamp() }
+  }
+}

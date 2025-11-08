@@ -1,0 +1,27 @@
+# destination: scripts/seal_fragments.aln
+script seal_fragments
+description "Hash and sign all designated critical fragments. Write immutable event to log."
+critical_files [
+  "configs/sai-mai.yaml",
+  "src/backend/payment_stripe.py",
+  "fragments/core-legal-compliance.sai",
+  "fragments/onboarding-consent.sai",
+  "manifest/indestructible-governance.sai",
+  "policies/reward-function.tracking.sai"
+]
+output_log "logs/fragment-seals.json"
+step seal_event:
+  timestamp = now()
+  sealed = []
+  for file in critical_files:
+    if file.exists():
+      hval = sha3_512(file)
+      sealed.append({ file: file, hash: hval })
+  event = { "timestamp": timestamp, "sealed_files": sealed }
+  if output_log.exists():
+    seals = json.load(output_log)
+  else:
+    seals = []
+  seals.append(event)
+  json.dump(seals, output_log)
+log "Sealed hashes for " + join([f["file"] for f in sealed],", ")

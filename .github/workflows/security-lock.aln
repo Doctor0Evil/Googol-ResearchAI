@@ -1,0 +1,11 @@
+# destination: .github/workflows/security-lock.aln
+workflow security-lock
+description "Universal Security Lock & Auto-Seal of critical code/config fragments on push and PR."
+on [push, pull_request]
+
+job seal_fragments_and_backend:
+  runs-on "saivm-latest"
+  steps:
+    - checkout repo
+    - run seal_fragments.aln
+    - commit "Auto-seal backend and fragments on push"

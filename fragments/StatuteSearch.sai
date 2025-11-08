@@ -1,0 +1,37 @@
+fragment StatuteSearch.sai {
+
+  metadata {
+    id: "SL-StatuteSearch"
+    version: "1.0.0"
+    type: "legal_information_retrieval"
+    compliance: ["GDPR","ISO27001"]
+  }
+
+  // Entrypoint for semantic search of statutes by natural language queries
+  entrypoint {
+    function: searchStatutes(query) -> results
+  }
+
+  logic {
+    if (!query.text) {
+      return { status:"error", message:"Empty query text" }
+    }
+
+    // Normalize jurisdiction context for targeting correct legal codes
+    let jurisdiction = normalizeJurisdiction(query.jurisdiction)
+    let statutesDatabase = loadStatutes(jurisdiction)
+
+    // Perform semantic vector-based search for highest relevance matches
+    let searchResults = performSemanticSearch(statutesDatabase, query.text)
+
+    // Return results with metadata for auditing and context verification
+    return {
+      status: "ok",
+      results: searchResults,
+      searchMetadata: {
+        timestamp: currentTimestamp(),
+        jurisdiction: jurisdiction
+      }
+    }
+  }
+}

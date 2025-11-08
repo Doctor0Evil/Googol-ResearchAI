@@ -1,0 +1,14 @@
+# destination: .github/workflows/onboarding-consent.yml
+name: Onboarding Consent Ledger Update
+on: [pull_request]
+jobs:
+  update-ledger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Add Contributor to Ledger
+        run: |
+          python scripts/add_contributor.py ${{ github.actor }}
+      - name: Commit update
+        run: git commit -am "Add new contributor to ledger" && git push

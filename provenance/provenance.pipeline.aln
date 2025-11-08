@@ -1,0 +1,30 @@
+@PROVENANCE_PIPELINE {
+  identities {
+    oidc_provider: "https://issuer.example/idp"
+    workload_identity: "projects/123456/locations/global/workloadIdentityPools/prod"
+  }
+
+  artifacts {
+    targets: ["containers", "binaries", "policies", "press_releases.pdf"]
+    digest_algo: "sha256"
+  }
+
+  signing {
+    scheme: "sigstore_keyless"
+    fulcio: "https://fulcio.sigstore.dev"
+    rekor: "https://rekor.sigstore.dev"
+    attestations: ["slsa_build", "sbom_spdx", "policy_conformance"]
+  }
+
+  c2pa {
+    enable_for: ["images", "videos", "pdfs"]
+    claims: ["creator", "creation_time", "processing_history", "license", "usage_terms"]
+    toolchain: "c2pa_cli_v1"
+  }
+
+  verification {
+    require_rekor_inclusion: true
+    require_oidc_claims: ["issuer", "subject", "audience"]
+    policy: "deny_if_unsigned_or_unattested"
+  }
+}

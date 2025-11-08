@@ -1,0 +1,27 @@
+# destination: scripts/update_main_manifest.aln
+script update_main_manifest
+description "Hashes, indexes, and notarizes every fragment, workflow, compliance document, and particle into the main manifest. All hashes are re-calculated and versioned."
+manifest_path "manifest/indestructible-governance.sai"
+tracked_entities [
+  "configs/sai-mai.yaml",
+  "src/backend/payment_stripe.py",
+  "fragments/core-legal-compliance.sai",
+  "fragments/onboarding-consent.sai",
+  "manifest/indestructible-governance.sai",
+  "policies/reward-function.tracking.sai",
+  ".github/workflows/security-lock.aln",
+  ".github/workflows/ci-cd-compliance.aln",
+  "scripts/test_suite.aln",
+  "scripts/compliance_scan.aln",
+  "scripts/seal_fragments.aln",
+  "scripts/update_main_manifest.aln"
+]
+step update:
+  now = timestamp()
+  manifest = load(manifest_path)
+  for file in tracked_entities:
+    v = get_version(file)
+    hval = sha3_512(file)
+    manifest.link(file, { "version": v, "hash": hval, "timestamp": now })
+  save(manifest_path, manifest)
+  log "Main manifest updated with new hashes and versions."

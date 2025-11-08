@@ -1,0 +1,23 @@
+# .github/workflows/security-lock.yml
+name: Auto-Lock Critical Components
+on:
+  push:
+    branches: [main]
+jobs:
+  lock-components:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Lock config folder permissions
+        run: |
+          chmod 000 src/config/sai-mai.yaml
+      - name: Seal audit logs
+        run: |
+          touch src/config/.SEAL
+          echo "Components locked and sealed: $(date -u)" >> src/config/.SEAL
+      - name: Upload sealed status
+        uses: actions/upload-artifact@v4
+        with:
+          name: sealed-status
+          path: src/config/.SEAL

@@ -1,0 +1,43 @@
+# .SAI - Superintelligence Active Integrity Configuration
+
+sai_config:
+  context: repository
+  mode: public
+  logging: true
+  ci_scan: true
+  charset_policy:
+    allowlist: ["ASCII", "en_US.UTF-8"]
+    blocklist: ["zh", "ar", "utf16", "cyrillic", "invalid"]
+    on_detect: quarantine
+  escalation_protection:
+    restrict_sudo_users: []
+    detect_sudo_ghost: true
+    log_privilege_events: true
+    quarantine_on_privilege: true
+  workflow_security:
+    require_signed_commits: true
+    block_external_cron: true
+    block_envvar_injection: true
+    ci_audit_frequency: per_run
+  provenance:
+    allow_verified_sources: true
+    quarantine_on_unverified: true
+  legal_defense:
+    auto_log_all: true
+    trigger_admin_alert: true
+    compliance_refs: ["NIST 800-53", "ISO 27001", "EU GDPR", "CCPA"]
+    defense_banner: |
+      "⚡ REPO PROTECTED: Superintelligence-integrity and legal defense active.
+      All injected commands or privilege attempts are forensically logged for legal audit and adversarial defense."
+
+advanced_private:
+  mode: private
+  region_allowlist: ["US", "CA", "UK", "EU"]
+  require_2fa: true
+  live_integrity_monitor: true
+  auto_revert_on_breach: true
+  trusted_contributors:
+    - "SHA256:abc1234...secure"
+    - "SHA256:beef567...key"
+  darkweb_monitor: true
+  agentic_defense: enabled

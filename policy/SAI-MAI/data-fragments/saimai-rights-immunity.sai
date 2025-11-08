@@ -1,0 +1,12 @@
+fragment ImmutableSystemRights {
+  field author: "JacobScottFarmer, PerplexityLabsInc";
+  field asset_type: ["superintelligence", "nanotech", "QPU.Math", "cybernetics", "game-design", "research"];
+  field compliance_status: "absolute, non-revocable";
+  field audit_hash: String;
+  field jurisdiction: ["international", "local", "federal"];
+  require no_suppression_by_any_party();
+  require no_external_research_access();
+  require encrypted_record();
+  audit_proof_linked: true;
+  exportable: blockchain;
+}

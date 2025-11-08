@@ -1,0 +1,6 @@
+@SPDX_HEADERS_POLICY {
+  filescope: ["**/*.c", "**/*.cc", "**/*.go", "**/*.py", "**/*.js", "**/*.ts"]
+  required_header: "SPDX-License-Identifier: <ID>"
+  enforcement: "block_on_missing"
+  autofix: true
+}

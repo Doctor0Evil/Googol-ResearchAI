@@ -1,0 +1,6 @@
+operation QuantumDebugLogger {
+  capture: QPU.Math.debug_stream(tx_object, policy_matrix);
+  store: policy/SAI-MAI/debug/session_[timestamp].log;
+  exportable: true;
+  action: escalate_noncompliant_events_to(policy/SAI-MAI/intervention/);
+}

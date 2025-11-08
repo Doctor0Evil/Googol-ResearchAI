@@ -1,0 +1,10 @@
+{
+  "format": "OpenTDF",
+  "cipher": "AES-GCM-256",
+  "abac_policy_ref": "policies/tdf/qpu_internal_only.sai",
+  "provenance": {
+    "sigstore": true,
+    "rekor_required": true
+  },
+  "storage_ref": "s3://org-qpu-datavault/shards/qpu-shard-2025-10-09.enc"
+}

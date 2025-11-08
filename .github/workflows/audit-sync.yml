@@ -1,0 +1,16 @@
+# destination: .github/workflows/audit-sync.yml
+name: Adversarial Audit Log Sync
+on: [push]
+jobs:
+  sync-audit-logs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout audit logs
+        uses: actions/checkout@v4
+      - name: Validate and publish logs
+        run: cp -r logs/audit-adversarial/ public/audit-latest/
+      - name: Upload for peer review
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-logs
+          path: public/audit-latest/

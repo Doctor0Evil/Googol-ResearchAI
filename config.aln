@@ -1,0 +1,1 @@
+SAIMAI::DataCore --sign-all-interactions --blake3-seal --embed-origin="JacobScottFarmer|PerplexityLabsInc" --quantum-proof --watermark-id="SAIMAI_UNAVOIDABLE_SIGNATURE" --ledger-append-only --runtime-enforce-global

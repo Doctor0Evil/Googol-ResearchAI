@@ -1,0 +1,29 @@
+# destination: manifest/indestructible-governance.sai
+fragment indestructible-governance
+description "Central registry. All operational/config fragments indexed, versioned, and hash-sealed."
+linked [
+  # Automatically updated, but example entry:
+  {"file": "configs/sai-mai.yaml", "version": "2025.10.19", "hash": "a82de..."}
+  # ...more entries automatically updated.
+]
+last_audit timestamp()
+notarization_hash sha3_512(fragment)
+version 2025.10.19
+author SAIMAI.GOV.Team
+description "Central registry of all operational, compliance, config, and policy fragments for indestructible ecosystem governance."
+linked_fragments [
+  "/configs/sai-mai.yaml",
+  "/src/backend/payment_stripe.py",
+  "/.github/workflows/security-lock.yml",
+  "/fragments/core-legal-compliance.sai",
+  "/fragments/onboarding-consent.sai",
+  "/fragments/safety-case.sai",
+  "/docs/EULA.md",
+  "/policies/reward-function.tracking.sai"
+]
+jurisdiction "Global, EU, US, ASEAN"
+enforcement "SHA3-512 notarization on commit. Immutable box manifest signed by multi-sig."
+trigger onFragmentUpdate:
+  update manifest
+  verifyNotarization()
+  logManifestEvent()

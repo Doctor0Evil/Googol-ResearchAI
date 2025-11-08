@@ -1,0 +1,11 @@
+// destination: /logs/reward-branch-audit.json
+[
+  {
+    "date": "2025-10-19T10:03:24Z",
+    "branch": "main",
+    "action": "approved",
+    "reviewers": ["Doctor0Evil", "ComplianceNexus"],
+    "commit_sha": "baf0e1dd...",
+    "policy_changes": ["update reward computation logic"]
+  }
+]

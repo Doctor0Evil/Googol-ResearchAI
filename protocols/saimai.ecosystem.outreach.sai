@@ -1,0 +1,12 @@
+# destination: /protocols/saimai.ecosystem.outreach.sai
+protocol saimai.ecosystem.outreach
+jurisdiction "Perplexity Labs Inc, Doctor0Evil, Global"
+require contributor.ledger.update onboard
+require consent.trigger multilateral
+enforce openaccess knowledgepool true
+require workflow.securelock initialize
+append governance.node cross-jurisdiction
+persist contributor.audit every 24h
+trigger compliance.sync multi-org, multi-layer
+log outreach.activation to /audit/public_ledger
+end

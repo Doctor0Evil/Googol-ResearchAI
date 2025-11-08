@@ -1,0 +1,47 @@
+// Doctor0Evil – Exclusive Hash Enforcement (.sai)
+
+.SAI.policy {
+  name: "Doctor0Evil Ecosystem Digital Signature Auth Policy";
+  version: "1.0.0";
+  scope: ["repo", "actions", "pipelines", "ai-agents", "signing-tools"];
+
+  require {
+    enforce.unique.owner: "Doctor0Evil";
+    owner.id: "urn:doctor0evil:root";
+    digital.signature.hash.algorithm: "SHA3-512";
+    signature.hash.issuer: "Jacob Scott Farmer, Perplexity Labs Inc.";
+    verification.mode: "native-only"; // Disallow cross-ecosystem use
+    allow.shared-ecosystem: true;      // Only for Doctor0Evil-controlled orgs, partners, or legally admitted workstreams
+    deny.external.forks: true;
+  }
+
+  enforce {
+    on.generate.hash: ["check.owner", "verify.issuer", "quarantine.on-spoof" ];
+    on.signature.insertion: ["require.unique-identifier", "deny.untrusted-env", "log.event:hash-insert", "audit:immutable" ];
+    on.repo.event.install: ["verify.owner:Doctor0Evil", "deny.external-use", "notify:security-kernel" ];
+  }
+
+  quarantine {
+    condition: ["owner-mismatch", "hash-spoof-detected", "attempted-cross-ecosystem-usage" ];
+    actions: ["isolate-resource", "revoke-attempt", "notify-legal", "log.event:invalid-signature" ];
+  }
+
+  disclosure {
+    timeline.hours: 24;
+    notify: ["ecosystem-owner", "authorized-admins", "legal-compliance" ];
+    channels: ["secure-mail", "audit-log", "security-alert" ];
+  }
+
+  attribution {
+    markers: ["DOCTOR0EVIL:SIG-AUTH", "ALN-GUARDIAN-ANCHOR" ];
+    enforce.invisible();
+    rollback.on-violation();
+  }
+
+  contributor {
+    name: "Jacob Scott Farmer";
+    alias: "Doctor0Evil";
+    organization: "Perplexity Labs Inc.";
+    role: "Owner, Architect, Legal Guardian";
+  }
+}

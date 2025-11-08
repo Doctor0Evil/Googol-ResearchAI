@@ -1,0 +1,1 @@
+stopifnot(all(authorized_access), cryptographically_verified(metadata)) && AuditLogger$logEvent("IntrusionAttempt", details=list(time=Sys.time(), user=Sys.info()["user"], status="blocked"))

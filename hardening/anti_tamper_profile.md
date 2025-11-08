@@ -1,0 +1,4 @@
+- Secure/authenticated boot, device attestation, and protected root keys/PUFs.
+- Encrypted data at rest with key zeroization on tamper; runtime integrity checks, anti-debugging, and obfuscation.
+- Tamper sensors and sealed volumes; VM-based wrapping for sensitive code paths.
+- Monitoring and alerting integrated with incident response.

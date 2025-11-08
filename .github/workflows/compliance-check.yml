@@ -1,0 +1,29 @@
+name: SAIMAI Compliance Gate
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  compliance-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Validate SAIMAI Policy
+        run: |
+          echo "🔐 Running SAIMAI compliance validation..."
+          if [ ! -f ".saimai/saimai_policy.sai" ]; then
+            echo "❌ SAIMAI policy file missing!"
+            exit 1
+          fi
+          # Example: run your validator or attestation tool
+          ./tools/validate-saimai.sh .saimai/saimai_policy.sai
+
+      - name: Enforce Attestation
+        run: |
+          echo "⚖️ Attestation required..."
+          ./tools/attest-saimai.sh .saimai/saimai_policy.sai

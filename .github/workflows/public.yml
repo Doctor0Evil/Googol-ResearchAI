@@ -1,0 +1,277 @@
+name: SAI Sovereignty | IP & Integrity Enforcement
+
+on:
+  push:
+    branches: [ main, release/* ]
+  pull_request:
+    branches: [ main, release/* ]
+  delete:
+  repository_dispatch:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  checks: read
+  contents: read
+  issues: write
+  pull-requests: write
+  security-events: write
+
+env:
+  MIN_HEADER_BYTES: "60000"
+  LEGAL_KEY_PHRASES: "LEGAL SOVEREIGNTY,|SOVEREIGNTY AND NON-FICTIONAL STATUS|OPERATIONAL AUTHORIZATION DECLARATION|ASSERTION OF INDEPENDENT PROVENANCE"
+  REQUIRED_DOCS: "LICENSE SECURITY.md CONTRIBUTING.md"
+  EVIDENCE_DIR: ".forensics"
+  AUDIT_LOG: ".legal-compliance-log"
+  ALERT_LABEL: "ip-violation"
+  OWNERSHIP_LABEL: "sovereign-asset"
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  INCIDENT_WEBHOOK_URL: ${{ secrets.INCIDENT_WEBHOOK_URL }}
+  GPG_PUBKEY_FPR: ${{ secrets.GPG_PUBKEY_FPR }}
+
+jobs:
+  initialize:
+    name: Initialize and Baseline
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure required docs present
+        run: |
+          missing=""
+          for f in $REQUIRED_DOCS; do
+            [ -f "$f" ] || missing="$missing $f"
+          done
+          if [ -n "$missing" ]; then
+            echo "Missing required docs:$missing"
+            exit 1
+          fi
+
+      - name: Create forensics and audit directories
+        run: |
+          mkdir -p "$EVIDENCE_DIR"
+          touch "$AUDIT_LOG"
+
+      - name: Log baseline
+        run: |
+          {
+            echo "=== Baseline at $(date -u +'%Y-%m-%dT%H:%M:%SZ') ==="
+            echo "Actor: $GITHUB_ACTOR | Event: $GITHUB_EVENT_NAME | Ref: $GITHUB_REF"
+            echo "Commit: ${GITHUB_SHA}"
+          } >> "$AUDIT_LOG"
+
+  legal-headers:
+    name: Legal Sovereignty Header Verification
+    runs-on: ubuntu-latest
+    needs: [initialize]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan major files for large legal header
+        run: |
+          set -e
+          shopt -s nullglob
+          files=( *.md *.txt **/*.md **/*.txt )
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No candidate text/markdown files to inspect."
+            exit 1
+          fi
+          fail=0
+          for f in "${files[@]}"; do
+            size=$(wc -c < "$f")
+            # Only enforce header in larger, core files to avoid blocking tiny docs
+            if [ "$size" -ge "$MIN_HEADER_BYTES" ]; then
+              if ! head -c "$MIN_HEADER_BYTES" "$f" | egrep -qi "$LEGAL_KEY_PHRASES"; then
+                echo "Missing required legal sovereignty header in $f"
+                echo "FILE:$f" >> "$EVIDENCE_DIR/missing-headers.txt"
+                fail=1
+              fi
+            fi
+          done
+          if [ "$fail" -eq 1 ]; then
+            echo "One or more files missing legal sovereignty declarations."
+            exit 1
+          fi
+
+      - name: Append audit log entry
+        run: |
+          echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') | Legal headers verified" >> "$AUDIT_LOG"
+
+  attribution-and-license:
+    name: Attribution, SPDX, and License Enforcement
+    runs-on: ubuntu-latest
+    needs: [initialize]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Enforce SPDX license identifiers
+        run: |
+          set -e
+          shopt -s nullglob
+          codefiles=$(git ls-files | egrep -i '\.(py|js|ts|go|rs|java|cs|cpp|c|h|sh|ps1|yaml|yml|toml|json)$' || true)
+          if [ -z "$codefiles" ]; then
+            echo "No code files detected; skipping SPDX check."
+            exit 0
+          fi
+          fail=0
+          while IFS= read -r f; do
+            head -n 5 "$f" | egrep -qi 'SPDX-License-Identifier:' || { echo "Missing SPDX header: $f"; echo "$f" >> "$EVIDENCE_DIR/missing-spdx.txt"; fail=1; }
+          done <<< "$codefiles"
+          exit $fail
+
+      - name: Check pervasive authorship attribution
+        run: |
+          set -e
+          shopt -s nullglob
+          fail=0
+          for f in $(git ls-files '*.md' '*.txt'); do
+            head -n 150 "$f" | egrep -qi 'Jacob Scott Farmer|Perplexity AI|Superintelligence Legal-AI Model' || { echo "Missing visible attribution in $f"; echo "$f" >> "$EVIDENCE_DIR/missing-attrib.txt"; fail=1; }
+          done
+          exit $fail
+
+      - name: Append audit log entry
+        run: |
+          echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') | SPDX and attribution verified" >> "$AUDIT_LOG"
+
+  secret-safety:
+    name: Secret and Key Exposure Prevention
+    runs-on: ubuntu-latest
+    needs: [initialize]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run GitHub secret scanning (CodeQL lightweight)
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript, python, go, cpp
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+
+      - name: Custom secret grep for obvious tokens
+        run: |
+          set +e
+          egrep -Rni --exclude-dir=".git" '(API[-_]?KEY|SECRET|TOKEN|ACCESS[_-]?KEY|-----BEGIN (RSA|OPENSSH) PRIVATE KEY-----)' . > "$EVIDENCE_DIR/secret-findings.txt"
+          if [ -s "$EVIDENCE_DIR/secret-findings.txt" ]; then
+            echo "Potential secrets detected. Remove or rotate immediately."
+            exit 1
+          fi
+
+      - name: Append audit log entry
+        if: always()
+        run: |
+          echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') | Secret scanning completed" >> "$AUDIT_LOG"
+
+  watermark-integrity:
+    name: Watermark and Hash Integrity Checks
+    runs-on: ubuntu-latest
+    needs: [initialize]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify repository watermark markers
+        run: |
+          set -e
+          # Example: look for zero-width signature marker string embedded in docs
+          marker=$'\u200b\u200c\u200d'
+          fail=0
+          for f in $(git ls-files '*.md' '*.txt'); do
+            if ! grep -q "$marker" "$f"; then
+              echo "Missing zero-width watermark in $f"
+              echo "$f" >> "$EVIDENCE_DIR/missing-watermark.txt"
+              fail=1
+            fi
+          done
+          exit $fail
+
+      - name: Compute manifest hash for critical assets
+        run: |
+          set -e
+          git ls-files | sort > "$EVIDENCE_DIR/manifest.files"
+          sha256sum $(git ls-files | sort) > "$EVIDENCE_DIR/manifest.sha256"
+          echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') | Manifest computed" >> "$AUDIT_LOG"
+
+  branch-protection-sim:
+    name: Policy and Branch Protections Simulation
+    runs-on: ubuntu-latest
+    needs: [initialize]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enforce PR-only merges to protected branches (simulated)
+        if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main') }}
+        run: |
+          echo "Direct pushes to main detected. This repository enforces PR review policy."
+          echo "Rejecting run to encourage PR-based governance."
+          exit 1
+
+  incident-response:
+    name: Automated Incident Response & Notification
+    runs-on: ubuntu-latest
+    needs: [legal-headers, attribution-and-license, secret-safety, watermark-integrity, branch-protection-sim]
+    if: failure()
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gather forensic evidence
+        run: |
+          set -e
+          git log -n 20 --stat --decorate > "$EVIDENCE_DIR/recent-commits.log"
+          git diff --name-status HEAD~1..HEAD > "$EVIDENCE_DIR/last-diff.log"
+          printf "Actor: %s\nEvent: %s\nRef: %s\nSHA: %s\n" "$GITHUB_ACTOR" "$GITHUB_EVENT_NAME" "$GITHUB_REF" "$GITHUB_SHA" > "$EVIDENCE_DIR/context.txt"
+          tar -czf evidence.tar.gz "$EVIDENCE_DIR" || true
+
+      - name: Create or update tracking issue
+        uses: actions-ecosystem/action-create-issue@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Automated IP/Integrity Incident – ${{ github.run_id }}"
+          body: |
+            Automated enforcement detected a violation.
+            Actor: ${{ github.actor }}
+            Event: ${{ github.event_name }}
+            Ref: ${{ github.ref }}
+            Commit: ${{ github.sha }}
+            Evidence stored in repo: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          labels: "${{ env.ALERT_LABEL }},${{ env.OWNERSHIP_LABEL }}"
+
+      - name: Notify Slack
+        if: env.SLACK_WEBHOOK_URL != ''
+        run: |
+          curl -s -X POST -H 'Content-type: application/json' --data "{\"text\":\"SAI Sovereignty: Violation detected in ${GITHUB_REPOSITORY} by ${GITHUB_ACTOR} on ${GITHUB_REF}. Run: ${GITHUB_RUN_ID}\"}" "$SLACK_WEBHOOK_URL" || true
+
+      - name: External Incident Webhook
+        if: env.INCIDENT_WEBHOOK_URL != ''
+        run: |
+          curl -s -X POST -H 'Content-Type: application/json' \
+            --data "{\"repo\":\"${GITHUB_REPOSITORY}\",\"actor\":\"${GITHUB_ACTOR}\",\"ref\":\"${GITHUB_REF}\",\"sha\":\"${GITHUB_SHA}\",\"run\":\"${GITHUB_RUN_ID}\"}" \
+            "$INCIDENT_WEBHOOK_URL" || true
+
+  success-audit:
+    name: Success Audit Trail
+    runs-on: ubuntu-latest
+    needs: [legal-headers, attribution-and-license, secret-safety, watermark-integrity, branch-protection-sim]
+    if: success()
+    steps:
+      - uses: actions/checkout@v4
+      - name: Append success entry
+        run: |
+          echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') | All checks passed" >> "$AUDIT_LOG"
+      - name: Upload audit log artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-log
+          path: |
+            .legal-compliance-log
+            .forensics

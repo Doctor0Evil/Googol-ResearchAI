@@ -1,0 +1,14 @@
+# destination: .github/workflows/ci-cd-compliance.aln
+workflow ci-cd-compliance
+description "CI/CD pipeline for code integrity, compliance checking, and notarization."
+on [push, pull_request]
+
+job check_and_notarize:
+  runs-on "saivm-latest"
+  steps:
+    - checkout repo
+    - run test_suite.aln
+    - run compliance_scan.aln
+    - run seal_fragments.aln
+    - run update_main_manifest.aln
+    - commit "CI: RUN tests, compliance, code sealing, manifest update"

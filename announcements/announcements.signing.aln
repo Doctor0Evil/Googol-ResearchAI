@@ -1,0 +1,25 @@
+@ANNOUNCEMENTS_SIGNING {
+  materials {
+    inputs: ["press_release.pdf", "image_banner.png", "video_clip.mp4"]
+    digest_algo: "sha256"
+  }
+
+  signatures {
+    method: "sigstore_keyless"
+    include: ["rekor_uuid", "fulcio_cert_chain", "timestamp"]
+  }
+
+  c2pa {
+    enable_for: ["image_banner.png", "video_clip.mp4", "press_release.pdf"]
+    claims: ["creator", "creation_time", "processing_history", "license", "usage_terms"]
+  }
+
+  verification_manifest {
+    file: "VERIFY.txt"
+    contents: [
+      "How to verify Sigstore signature",
+      "How to verify Rekor inclusion",
+      "How to inspect C2PA claims"
+    ]
+  }
+}

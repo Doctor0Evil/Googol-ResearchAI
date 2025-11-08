@@ -1,0 +1,12 @@
+{
+  "version": "1.0",
+  "namespace": "org.qpu.internal",
+  "kas": ["https://kas.orgname.example"],
+  "attributes": [
+    {"name":"org","value":"OrgName"},
+    {"name":"project","value":"qpu"},
+    {"name":"role","value":"researcher"}
+  ],
+  "purpose": ["research-internal-only"],
+  "key_release_policy": "abac-all-of"
+}

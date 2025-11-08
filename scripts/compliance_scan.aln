@@ -1,0 +1,10 @@
+# destination: scripts/compliance_scan.aln
+script compliance_scan
+description "Automated compliance scan against PCI-DSS, GDPR, ISO, and internal policies."
+step scan:
+  for standard in ["PCI-DSS", "GDPR", "ISO27001", "EU_AI_ACT", "INTERNAL"]:
+    out = run "saicheck " + standard
+    if out.score < 1.0:
+      warn "Non-passing compliance check for " + standard
+      abort_pipeline("Compliance scan failed for: "+standard)
+log "All compliance scans passed."

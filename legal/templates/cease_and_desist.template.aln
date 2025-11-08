@@ -1,0 +1,54 @@
+@CEASE_AND_DESIST {
+  header {
+    title: "Notice of Unauthorized Use and Demand to Cease and Desist"
+    date: "@NOW_UTC"
+    reference_ids: ["<Rekor_UUID>", "<Fulcio_Cert_SN>", "<C2PA_Claim_ID>"]
+  }
+
+  parties {
+    complainant: "<Owner Name>, <Address>, <Contact>"
+    respondent: "<Entity Name>, <Address>, <Contact>"
+  }
+
+  facts {
+    works: "<Identify specific code/content/models/datasets>"
+    evidence: [
+      "C2PA Content Credentials assertions",
+      "Sigstore attestations (Fulcio cert + Rekor inclusion proof)",
+      "Build logs, commit SHAs, artifact digests"
+    ]
+    conduct: [
+      "Unauthorized training/fine-tuning/evaluation",
+      "Removal/alteration of Copyright Management Information",
+      "Trade secret misappropriation",
+      "Circumvention of robots.txt AI-crawler directives"
+    ]
+  }
+
+  legal_basis {
+    dmca_1202: "17 U.S.C. §1202 – integrity of copyright management information"
+    dtsa_1836: "18 U.S.C. §1836 – trade secret misappropriation"
+    dmca_512: "17 U.S.C. §512(c)(3) – takedown notice elements"
+    contracts: "Breach of license/terms prohibiting AI training and dataset ingestion"
+  }
+
+  demands {
+    cease_and_desist: "Immediate cessation of use, training, distribution, contribution, and hosting"
+    purge_certification: "Written certification within 10 business days of purge from datasets, models, caches, and backups"
+    accounting: "Full accounting of locations, recipients, derivative models, and datasets"
+    preservation: "Litigation hold over related documents, models, datasets, logs, and attestations"
+  }
+
+  remedies {
+    injunctive_relief: true
+    statutory_damages_dmca_1202: true
+    exemplary_damages_dtsa: true
+    fees_costs: true
+  }
+
+  signature {
+    method: "sigstore_keyless"
+    identity_binding: "OIDC"
+    attestations: ["rekor_transparency_log"]
+  }
+}

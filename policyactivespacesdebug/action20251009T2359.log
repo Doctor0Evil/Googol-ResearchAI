@@ -1,0 +1,10 @@
+// Systematic Course of Action for ToS Clause Enforcement
+BEGIN_TRANSACTION
+  VERIFY_DID_KYC(user)
+  IF NOT KYC_VALIDATED THEN BLOCK_ACCESS ENDIF
+  FOR EACH user_input IN session_inputs DO
+    CHECK_LICENSE_COMPLIANCE(user_input)
+    IF NOT COMPLIANT THEN LOG_ERROR; TERMINATE_SESSION ENDIF
+  ENDFOR
+  LOG_ACTION(filename=action20251009T2359.log, folder="policyactivespacesdebug")
+END_TRANSACTION

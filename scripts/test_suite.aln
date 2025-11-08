@@ -1,0 +1,9 @@
+# destination: scripts/test_suite.aln
+script test_suite
+description "Run all required code and security tests."
+step run_tests:
+  for test in list_tests("src/", "tests/"):
+    out = run test
+    if out.failed():
+      abort_pipeline("Unit/integration test failed: " + test.name)
+log "All tests passed."
